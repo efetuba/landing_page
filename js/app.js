@@ -60,16 +60,14 @@ function checkSectionView() {
     );
   };
 
-  for (i = 1; i < sections + 1; i++) {
+ for (i = 1; i < sections + 1; i++) {
     let sectionInFullView = document.getElementById("section" + i);
     let link= document.getElementById("btn" + i);
     window.addEventListener("scroll", function(event) {
         if (inView(sectionInFullView)) {
           sectionInFullView.classList.add("active");
-          link.classList.add("highlight");
         } else {
           sectionInFullView.classList.remove("active");
-          link.classList.remove("highlight");
         }
       },
       false
