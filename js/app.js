@@ -1,9 +1,9 @@
-//Build the menu dynamically
-
+//Global variables
 let navList = document.getElementById("navbar__list");
-let sections = document.getElementsByClassName("landing__container").length;
-
-for (i = 1; i < sections + 1; i++) {
+let secLenght = document.getElementsByClassName("landing__container").length;
+let sections=document.querySelectorAll("section");
+//Build the menu dynamically
+for (i = 1; i < secLenght + 1; i++) {
   let sectionItem = "#section" + i + "-header";
   let sectionValue = document.querySelector(sectionItem);
   let sectionText = sectionValue.textContent;
@@ -11,8 +11,8 @@ for (i = 1; i < sections + 1; i++) {
   let listText = document.createTextNode(sectionText);
   let listItem = "nav-list" + i;
   let button =document.createElement("button")
-  let buttonItem="btn" + i;
-  button.setAttribute("id" , buttonItem);
+  let buttonItem="section" + i;
+  button.setAttribute("class" , buttonItem);
   newList.setAttribute("id", listItem);
   newList.setAttribute("class", "nav-list-item");
   newList.appendChild(listText);
@@ -30,7 +30,7 @@ for (i = 1; i < sections + 1; i++) {
 }
 
 //This is the helper function for a scroll 
-  const scrollToTop = () => {
+const scrollToTop = () => {
   const scrolling = document.documentElement.scrollTop || document.body.scrollTop;
   if (scrolling > 0) {
     window.requestAnimationFrame(scrollToTop);
@@ -48,32 +48,25 @@ function goToTop() {
   document.documentElement.scrollTop = 0; 
 };
 //Checks if section is in view and adds active-class with moving background and color change
-function checkSectionView() {
-  let inView = function(elem) {
-    let bounding = elem.getBoundingClientRect();
-    return (
-      bounding.top <= 50 &&
-      bounding.bottom <=
-        (window.innerHeight || document.documentElement.clientHeight) &&
-      bounding.right <=
-        (window.innerWidth || document.documentElement.clientWidth)
-    );
-  };
-
- for (i = 1; i < sections + 1; i++) {
-    let sectionInFullView = document.getElementById("section" + i);
-    let link= document.getElementById("btn" + i);
-    window.addEventListener("scroll", function(event) {
-        if (inView(sectionInFullView)) {
-          sectionInFullView.classList.add("active");
-        } else {
-          sectionInFullView.classList.remove("active");
-        }
-      },
-      false
-    );
+function checkSectionView(){
+  for(const section of sections){
+    const position=section.getBoundingClientRect();
+    if( position.top <= 150 && position.bottom >=150){
+      const id=section.getAttribute("id");
+      document.querySelector(`.${id}`).classList.add("highlight");
+      section.classList.add("active");
+    }
+    else{
+      const id=section.getAttribute("id");
+      document.querySelector(`.${id}`).classList.remove("highlight");
+      section.classList.remove("active");
+    }
   }
 }
+document.addEventListener("scroll", function(){
+  checkSectionView();
+});
+
 //Add highlight to active class in navbar
 let buttons=document.querySelectorAll("button");
 buttons.forEach(button =>{
